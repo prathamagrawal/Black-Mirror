@@ -1,32 +1,63 @@
+from flask import Flask, flash, request, redirect, url_for, render_template
+import urllib.request
 import os
-from flask import Flask, request,render_template
-
-UPLOAD_FOLDER = './imgs/upload'
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/uploads/'
+
+app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if 'file1' not in request.files:
-            return 'there is no file1 in form!'
-        file1 = request.files['file1']
-        path = os.path.join(app.config['UPLOAD_FOLDER'], file1.filename)
-        file1.save(path)
-        return render_template("./index.html", user_image = path)
-        
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-        return 'ok'
-    return '''
-    <h1>Upload new File</h1>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="file1">
-      <input type="submit">
-    </form>
-    '''
 
-if __name__ == '__main__':
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+
+@app.route('/', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    file.filename = "test.png"
+    if file.filename == '':
+        flash('No image selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print('upload_image filename: ' + filename)
+        flash('Image successfully uploaded and displayed below')
+
+
+
+
+        return render_template('index.html', filename=filename,output_sigg=filename,output_eccv=filename)
+    # else:
+    #     flash('Allowed image types are - png, jpg, jpeg, gif')
+    #     return redirect(request.url)
+
+
+@app.route('/display/<filename>')
+def display_image(filename):
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+@app.route('/display_sigg/<output_sigg>')
+def display_sigg(output_sigg):
+    return redirect(url_for('static', filename='uploads/' + output_sigg), code=301)
+@app.route('/display_eccv/<output_eccv>')
+def display_eccv(output_eccv):
+    return redirect(url_for('static', filename='uploads/' + output_eccv), code=301)
+
+if __name__ == "__main__":
     app.run()

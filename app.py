@@ -56,11 +56,10 @@ def upload_image():
         out_img_eccv16 = postprocess_tens(tens_l_orig, colorizer_eccv16(tens_l_rs).cpu())
         out_img_siggraph17 = postprocess_tens(tens_l_orig, colorizer_siggraph17(tens_l_rs).cpu())
 
-        plt.imsave('eccv16.png', out_img_eccv16)
-        plt.imsave('%siggraph17.png', out_img_siggraph17)
+        plt.imsave('static/uploads/eccv16.png', out_img_eccv16)
+        plt.imsave('static/uploads/siggraph17.png', out_img_siggraph17)
 
-
-        return render_template('index.html', filename=filename,output_sigg=filename,output_eccv=filename)
+        return render_template('index.html', filename=filename,output_sigg='./siggraph17.png',output_eccv='./eccv16.png')
     # else:
     #     flash('Allowed image types are - png, jpg, jpeg, gif')
     #     return redirect(request.url)

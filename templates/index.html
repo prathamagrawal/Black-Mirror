@@ -2,15 +2,41 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Image Colorisation using Neural Network</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />        
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />     
+<style>
+    #form {
+        display: flex; 
+        flex: 1; 
+        gap: 2rem; 
+        justify-content: center;
+    }
+    #main {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 2rem;
+        justify-content: center;
+        align-items: center;
+    }
+    .image-container {
+        width: 100%;
+        text-align: center;
+    }
+    .image {
+        width: 80%;
+    }
+</style>   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
-<p><h1 align="center">Image Colorisation using Neural Network</h1></p>
+<p><h1 align="center">Image Colorisation using Neural Networks</h1></p>
 <div class="container">
 <div class="row">
-    <h2>Select a file to upload</h2>
-    <p>
+    <h2 align="center">Select a file to upload</h2>
+    <form method="post" action="/" enctype="multipart/form-data" id="form">
+        <input type="file" name="file" class="form-control" autocomplete="off" required style="width: 50%;">
+        <input type="submit" value="Submit" class="btn btn-info">
+    </form>
+    <!-- <p>
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             <ul>
@@ -20,27 +46,23 @@
             </ul>
           {% endif %}
         {% endwith %}
-    </p>
+    </p> -->
     {% if filename %}
-        <div style="width:500px;">
-            <img src="{{ url_for('display_image', filename=filename) }}" style="width:500px;">
-            <h2 style="margin-top:10px">Output image</h2>
-            <h3 style="margin-top:10px">ECCV16 MODEL OUTPUT: </h3>
-            <img src="{{ url_for('display_eccv', output_eccv=output_eccv) }}" style="width:500px;">
-            <h3 style="margin-top:10px">SIGGRAPH17 MODEL OUTPUT: </h3>
-            <img src="{{ url_for('display_sigg', output_sigg=output_sigg) }}" style="width:500px;">
+        <div style="width:100%;" id="main">
+            <div class="image-container">
+                <h3>Input Image: </h3>
+                <img src="{{ url_for('display_image', filename=filename) }}" class="image">
+            </div>
+            <div class="image-container">
+                <h3>Model 1 Output: </h3>
+                <img src="{{ url_for('display_eccv', output_eccv=output_eccv) }}" class="image">
+            </div>
+            <div class="image-container">
+                <h3>Model 2 Output: </h3>
+                <img src="{{ url_for('display_sigg', output_sigg=output_sigg) }}" class="image">
+            </div>
         </div>
     {% endif %}
-    <form method="post" action="/" enctype="multipart/form-data">
-        <dl>
-            <p>
-                <input type="file" name="file" class="form-control" autocomplete="off" required>
-            </p>
-        </dl>
-        <p>
-            <input type="submit" value="Submit" class="btn btn-info">
-        </p>
-    </form>
 </div>
 </div>
 </body>

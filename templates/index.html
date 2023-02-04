@@ -1,81 +1,210 @@
 <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Image Colorisation using Neural Network</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <style>
+            .main {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4rem;
+                justify-content: center;
+                align-items: center;
+            }
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Colorisation using Neural Network</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <style>
-        #form {
-            display: flex;
-            flex: 1;
-            gap: 2rem;
-            justify-content: center;
-        }
+            .image-container {
+                width: 100%;
+                text-align: center;
+                border-radius: 16px;
+                border-width: 10px;
+                border-color: #027bff;
+            }
 
-        #main {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            column-gap: 2rem;
-            justify-content: center;
-            align-items: center;
-        }
+            .image {
+                width: 100%;
+                height: 340px;
+                border-radius: 16px;
+                border-width: 2px;
+            }
 
-        .image-container {
-            width: 100%;
-            text-align: center;
-        }
+            body {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+                background: #027bff;
+                color: white;
+            }
 
-        .image {
-            width: 80%;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-</head>
+            .drag-area {
+                border: 2px dashed #027bff;
+                height: 400px;
+                width: 100%;
+                border-radius: 5px;
+                display: flex;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
 
-<body>
-    <p>
-    <h1 align="center">Black Mirror</h1>
-    </p>
+            .drag-area.active {
+                border: 2px solid #027bff;
+            }
 
-    <p>
-    <h3 align="center">Image Colorisation using Neural Networks</h3>
-    </p>
-    <div class="container">
-        <div class="row">
-            <h4 align="center">Select a file to upload</h4>
-            <form method="post" action="/" enctype="multipart/form-data" id="form">
-                <input type="file" name="file" class="form-control" autocomplete="off" required style="width: 50%;">
-                <input type="submit" value="Submit" class="btn btn-info">
-            </form>
-            <!-- <p>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
-    </p> -->
-            {% if filename %}
-            <div style="width:100%;" id="main">
-                <div class="image-container">
-                    <h3>Input Image: </h3>
-                    <img src="{{ url_for('display_image', filename=filename) }}" class="image">
+            .drag-area .icon {
+                font-size: 100px;
+                color: #027bff;
+            }
+
+            .drag-area img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+            .holder {
+                width: 90%;
+                padding: 2rem;
+                background-color: white;
+                border-width: 2px;
+                border-radius: 16px;
+                filter: drop-shadow(12px 12px 12px #000);
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <div>
+            <h1 align="center">Black Mirror</h1>
+            <h3 align="center">Image Colorisation using Neural Networks</h3>
+        </div>
+        <div class="holder">
+            {% if not filename %}
+            <div class="drag-area">
+                <div class="icon">
+                    <i
+                        style="font-size: 72px"
+                        class="fas fa-cloud-upload-alt text-primary"></i>
                 </div>
-                <div class="image-container">
-                    <h3>Model 1 Output: </h3>
-                    <img src="{{ url_for('display_eccv', output_eccv=output_eccv) }}" class="image">
+                <h3
+                    align="center"
+                    style="margin-bottom: 12px"
+                    class="text-primary">
+                    Drag & Drop to Upload File
+                </h3>
+                <p
+                    style="margin-bottom: 12px; font-size: 20px"
+                    class="text-primary">
+                    OR
+                </p>
+                <button class="btn btn-primary btn-lg">Browse File</button>
+                <form
+                    method="post"
+                    action="/"
+                    enctype="multipart/form-data"
+                    id="form">
+                    <input
+                        name="file"
+                        id="file"
+                        type="file"
+                        style="visibility: hidden" />
+                </form>
+            </div>
+            {% endif %} {% if filename %}
+            <div style="width: 100%" class="main">
+                <div class="card image-container">
+                    <img
+                        src="{{ url_for('display_image', filename=filename) }}"
+                        class="card-img-top image" />
+                    <h3 class="card-title text-primary">Input Image</h3>
                 </div>
-                <div class="image-container">
-                    <h3>Model 2 Output: </h3>
-                    <img src="{{ url_for('display_sigg', output_sigg=output_sigg) }}" class="image">
+                <div class="card image-container">
+                    <img
+                        src="{{ url_for('display_eccv', output_eccv=output_eccv) }}"
+                        class="card-img-top image" />
+                    <h3 class="card-title text-primary">Model 1 Output</h3>
+                </div>
+                <div class="card image-container">
+                    <img
+                        src="{{ url_for('display_sigg', output_sigg=output_sigg) }}"
+                        class="card-img-top image" />
+                    <h3 class="card-title text-primary">Model 2 Output</h3>
                 </div>
             </div>
             {% endif %}
         </div>
-    </div>
-</body>
+        <script>
+            const dropArea = document.querySelector(".drag-area"),
+                dragText = dropArea.querySelector("header"),
+                button = dropArea.querySelector("button"),
+                input = dropArea.querySelector("input")
 
+            let file //this is a global variable and we'll use it inside multiple functions
+            button.onclick = () => {
+                input.click() //if user click on the button then the input also clicked
+            }
+
+            input.addEventListener("change", function () {
+                //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+                file = this.files[0]
+                dropArea.classList.add("active")
+                showFile() //calling function
+            })
+
+            //If user Drag File Over DropArea
+            dropArea.addEventListener("dragover", (event) => {
+                event.preventDefault() //preventing from default behaviour
+                dropArea.classList.add("active")
+                dragText.textContent = "Release to Upload File"
+            })
+
+            //If user leave dragged File from DropArea
+            dropArea.addEventListener("dragleave", () => {
+                dropArea.classList.remove("active")
+                dragText.textContent = "Drag & Drop to Upload File"
+            })
+
+            //If user drop File on DropArea
+            dropArea.addEventListener("drop", (event) => {
+                event.preventDefault() //preventing from default behaviour
+                //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+                file = event.dataTransfer.files[0]
+                showFile() //calling function
+            })
+
+            function showFile() {
+                let fileType = file.type //getting selected file type
+                let validExtensions = ["image/jpeg", "image/jpg", "image/png"] //adding some valid image extensions in array
+                if (validExtensions.includes(fileType)) {
+                    //if user selected file is an image file
+                    console.log(1)
+                    document.getElementById("form").submit()
+                    console.log(2)
+                    let fileReader = new FileReader() //creating new FileReader object
+                    fileReader.onload = () => {
+                        let fileURL = fileReader.result //passing user file source in fileURL variable
+                        //window.location.href = "/upload?file=" + file.name
+                        // UNCOMMENT THIS BELOW LINE. I GOT AN ERROR WHILE UPLOADING THIS POST SO I COMMENTED IT
+                        let imgTag = `<img src="${fileURL}" alt="image">` //creating an img tag and passing user selected file source inside src attribute
+                        dropArea.innerHTML = imgTag //adding that created img tag inside dropArea container
+                    }
+                    fileReader.readAsDataURL(file)
+                } else {
+                    alert("This is not an Image File!")
+                    dropArea.classList.remove("active")
+                    dragText.textContent = "Drag & Drop to Upload File"
+                }
+            }
+        </script>
+    </body>
 </html>

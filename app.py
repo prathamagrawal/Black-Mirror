@@ -1,4 +1,5 @@
 from flask import Flask, flash, request, redirect, url_for, render_template
+import shutil
 import urllib.request
 import os
 from werkzeug.utils import secure_filename
@@ -28,7 +29,6 @@ def allowed_file(filename):
 @app.route('/')
 def home():
     return render_template('index.html')
-
 
 @app.route('/', methods=['POST'])
 def upload_image():
@@ -67,7 +67,6 @@ def upload_image():
     # else:
     #     flash('Allowed image types are - png, jpg, jpeg, gif')
     #     return redirect(request.url)
-
 
 @app.route('/display/<filename>')
 def display_image(filename):

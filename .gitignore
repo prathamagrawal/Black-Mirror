@@ -1,4 +1,5 @@
 static/
 __pycache__
 colorizers/__pycache__
-inputs
+inputs/
+.vscode/

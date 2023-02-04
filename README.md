@@ -9,13 +9,6 @@
         <li><a href="#keyboard--tech-stack">Tech Stack</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#-getting-started">Getting Started</a>
-      <ul dir="auto">
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
   </ol>
 </details>
 

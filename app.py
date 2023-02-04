@@ -1,4 +1,5 @@
 from flask import Flask, flash, request, redirect, url_for, render_template
+import shutil
 import urllib.request
 import os
 from werkzeug.utils import secure_filename
@@ -29,20 +30,15 @@ def allowed_file(filename):
 def home():
     return render_template('index.html')
 
-
-@app.route('/', methods=['POST'])
+@app.route('/upload', methods=['GET'])
 def upload_image():
-    if 'file' not in request.files:
+    filen = request.args.get("file")
+    if request.args.get("file") == None:
         flash('No file part')
         return redirect(request.url)
-    file = request.files['file']
-    file.filename = "test.png"
-    if file.filename == '':
-        flash('No image selected for uploading')
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    if allowed_file(filen):
+        filename = secure_filename(filen)
+        shutil.copyfile('inputs/' + filen, UPLOAD_FOLDER + filename)
         print('upload_image filename: ' + filename)
         flash('Image successfully uploaded and displayed below')
 

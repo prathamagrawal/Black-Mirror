@@ -30,15 +30,19 @@ def allowed_file(filename):
 def home():
     return render_template('index.html')
 
-@app.route('/upload', methods=['GET'])
+@app.route('/', methods=['POST'])
 def upload_image():
-    filen = request.args.get("file")
-    if request.args.get("file") == None:
+    if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
-    if allowed_file(filen):
-        filename = secure_filename(filen)
-        shutil.copyfile('inputs/' + filen, UPLOAD_FOLDER + filename)
+    file = request.files['file']
+    file.filename = "test.png"
+    if file.filename == '':
+        flash('No image selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print('upload_image filename: ' + filename)
         flash('Image successfully uploaded and displayed below')
 
@@ -63,7 +67,6 @@ def upload_image():
     # else:
     #     flash('Allowed image types are - png, jpg, jpeg, gif')
     #     return redirect(request.url)
-
 
 @app.route('/display/<filename>')
 def display_image(filename):

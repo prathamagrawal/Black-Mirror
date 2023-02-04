@@ -76,6 +76,7 @@ def display_image(filename):
 @app.route('/display_sigg/<output_sigg>')
 def display_sigg(output_sigg):
     return redirect(url_for('static', filename='uploads/' + output_sigg), code=301)
+    
 @app.route('/display_eccv/<output_eccv>')
 def display_eccv(output_eccv):
     return redirect(url_for('static', filename='uploads/' + output_eccv), code=301)

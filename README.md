@@ -33,9 +33,12 @@ The entire process can be summarised as follows:
 ### :hammer_and_wrench: &nbsp; Working
 <hr />
 1. Landing/Upload Page
+
+<br />
 2. Results Page
 
 ### :keyboard: &nbsp; Tech Stack
+<hr />
 <ul dir="auto">
 <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://user-images.githubusercontent.com/25181517/183423507-c056a6f9-1ba8-4312-a350-19bcbc5a8697.png"><img src="https://user-images.githubusercontent.com/25181517/183423507-c056a6f9-1ba8-4312-a350-19bcbc5a8697.png" height="32" style="max-width: 100%;"></a> Python</li>
 <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://user-images.githubusercontent.com/25181517/183423775-2276e25d-d43d-4e58-890b-edbc88e915f7.png"><img src="https://user-images.githubusercontent.com/25181517/183423775-2276e25d-d43d-4e58-890b-edbc88e915f7.png" height="32" style="max-width: 100%;"></a> Flask</li>
@@ -43,5 +46,6 @@ The entire process can be summarised as follows:
 <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png"><img src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" height="32" style="max-width: 100%;"></a> JavaScript</li>
 </ul>
 
+### :hammer_and_wrench: &nbsp; Working
   
 

@@ -23,10 +23,11 @@ The entire process can be summarised as follows:
    
 ### :hammer_and_wrench: &nbsp; Working
 <hr />
-1. Landing/Upload Page
+<h3 align="center"> 1. Landing/Upload Page </h3>
+<img width="1436" alt="Screenshot 2023-02-06 at 9 53 17 PM" src="https://user-images.githubusercontent.com/58286330/217029605-7b85f5e1-b438-4b36-87ac-7166a5227273.png">
 
 <br />
-2. Results Page
+<h3 align="center"> 2. Result Page </h3>
 
 ### :keyboard: &nbsp; Tech Stack
 <hr />
